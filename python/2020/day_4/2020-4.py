@@ -1,14 +1,6 @@
 def read_file(filename):
-    with open(filename,"r") as document:
-        str_acc = ""
-        ppt_list = []
-        for line in document:
-            if line != "\n":
-                str_acc+=line.strip("\n")+" "
-                continue
-            ppt_list.append(str_acc.strip(" "))
-            str_acc = ""
-        ppt_list.append(str_acc.strip(" "))
+    with open(filename, "r") as document:
+        ppt_list = [x.replace("\n", " ") for x in [line.strip("\n") for line in document.read().split("\n\n")]]
     return ppt_list
 
 def fld_to_dict(ppt):
@@ -33,7 +25,7 @@ def fld_val(ppt):
 def yr_val(ppt):
     ranges = {"byr": (1920, 2002), "iyr": (2010, 2020), "eyr": (2020, 2030)}
     c = 0
-    for yr in val_rules:
+    for yr in ranges:
         if len(ppt[yr]) == 4 and ranges[yr][0] <= int(ppt[yr]) <= ranges[yr][1]:
             c+=1
     return c == 3
