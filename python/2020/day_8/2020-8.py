@@ -53,7 +53,7 @@ def edit_code(document):
 
 if __name__ == "__main__":
     start = time.perf_counter()
-    document = read_file("example.txt")
+    document = read_file("input.txt")
     print(edit_code(document))
     end = time.perf_counter()
     print(f"{(end-start)*1000:.3f} ms")
