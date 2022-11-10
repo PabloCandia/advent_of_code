@@ -38,17 +38,20 @@ def modular_inverse(a, m):
         raise Exception('No modular inverse for %i mod %i' % (a, m))
     else:
         return x % m
+# https://crypto.stanford.edu/pbc/notes/numbertheory/crt.html
+def chinese_reminder(a, mods):
+    m = list_mult(mods)
+    b = [m//mod for mod in mods]
+    inv_b = [modular_inverse(b[i], mods[i]) for i in range(len(mods))]
+    sum = 0
+    for i, mod in enumerate(mods):
+        sum += a[i]*b[i]*inv_b[i]
+    return int(sum) % m
 
 def part_2(filename):
     _, mods, idx = read_file(filename)
-    m = list_mult(mods)
     a = [-i for i in idx]
-    b = [m//mod for mod in mods]
-    inv_b = [modular_inverse(b[i], mods[i]) for i in range(len(mods))]
-    timestamp_sum = 0
-    for i, mod in enumerate(mods):
-        timestamp_sum += a[i]*b[i]*inv_b[i]
-    return int(timestamp_sum) % m
+    return chinese_reminder(a, mods)
 
 if __name__ == "__main__":
     print("Enter the name of the input file:")
